@@ -1,0 +1,2 @@
+robocopy.exe c:\datos\ e:\copia_datos\ /mir /r:1 /copyall /b /sec /nfl /ndl /mt:64 /log:e:\copia.log
+mailsend1.17b12.exe -smtp smtp.gmail.com -port 587 -startttls -auth -t informes@comexsistemas.es -attach e:\copia.log,text/plain,i  -user dula.inter.comex@gmail.com -pass 1757duLa -f dula.inter.comex@gmail.com -sub "Copia datos DULA INTER"

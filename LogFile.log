@@ -1,0 +1,39 @@
+
+-------------------------------------------------------------------------------
+   ROBOCOPY     ::     Herramienta para copia eficaz de archivos                             
+-------------------------------------------------------------------------------
+
+  Inicio: Sun Apr 05 09:16:03 2015
+
+   Origen : C:\p\
+     Destino : c:\p2\
+
+    Archivos: *.*
+	    
+  Opciones: *.* /S /E /COPY:DAT /PURGE /MIR /R:1000000 /W:30 
+
+------------------------------------------------------------------------------
+
+	                   0	C:\p\
+	                  13	C:\p\Renta 2013\
+	                  19	C:\p\Renta 2013\.install4j\
+	                   2	C:\p\Renta 2013\aeat\
+	                   1	C:\p\Renta 2013\aeat\log\
+	                   3	C:\p\Renta 2013\CloudScape\
+	                   2	C:\p\Renta 2013\CloudScape\Red\
+	                   3	C:\p\Renta 2013\CloudScape\Red\log\
+	                  61	C:\p\Renta 2013\CloudScape\Red\seg0\
+	                   1	C:\p\Renta 2013\Leame\
+	                  27	C:\p\Renta 2013\lib\
+	                   2	C:\p\Renta 2013\log\
+	                   4	C:\p\Renta 2013\motor\
+
+------------------------------------------------------------------------------
+
+               Total   Copiado   OmitidoNo coincidencia     ERROR    Extras
+Directorios:        13         0        13         0         0         0
+ Archivos:       138         0       138         0         0         0
+    Bytes:   40.20 m         0   40.20 m         0         0         0
+    Veces:   0:00:00   0:00:00                       0:00:00   0:00:00
+
+Finalizado: Sun Apr 05 09:16:03 2015
