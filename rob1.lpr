@@ -7,15 +7,14 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, unitrob1
-  { you can add units after this };
+  Forms, unitrob1, smtpsend;
 
 {$R *.res}
 
 begin
   RequireDerivedFormResource := True;
   Application.Initialize;
-  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TFireCopy, FireCopy);
   Application.Run;
 end.
 

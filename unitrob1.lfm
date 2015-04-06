@@ -1,11 +1,12 @@
-object Form1: TForm1
+object FireCopy: TFireCopy
   Left = 289
   Height = 341
   Top = 191
   Width = 751
-  Caption = 'FireRoboCopy'
+  Caption = 'FireCopy'
   ClientHeight = 341
   ClientWidth = 751
+  Color = 6730751
   OnCreate = FormCreate
   LCLVersion = '1.2.6.0'
   object Origen: TDirectoryEdit

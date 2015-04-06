@@ -33,7 +33,7 @@
         <PackageName Value="LCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="2">
+    <Units Count="3">
       <Unit0>
         <Filename Value="rob1.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -42,11 +42,16 @@
       <Unit1>
         <Filename Value="unitrob1.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="Form1"/>
+        <ComponentName Value="FireCopy"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="unitrob1"/>
       </Unit1>
+      <Unit2>
+        <Filename Value="C:\Users\jaba\Desktop\lib\smtpsend.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="smtpsend"/>
+      </Unit2>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -57,6 +62,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="C:\Users\jaba\Desktop\lib\"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>

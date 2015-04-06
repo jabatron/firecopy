@@ -6,13 +6,13 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ShellCtrls,
-  EditBtn, StdCtrls, ComCtrls, ExtCtrls, Buttons, Process;
+  EditBtn, StdCtrls, ComCtrls, ExtCtrls, Buttons, Process, smtpsend;
 
 type
 
-  { TForm1 }
+  { TFireCopy }
 
-  TForm1 = class(TForm)
+  TFireCopy = class(TForm)
     Label1: TLabel;
     mBackup: TCheckBox;
     Seg_NTFS: TCheckBox;
@@ -32,27 +32,58 @@ type
   end;
 
 var
-  Form1: TForm1;
+  FireCopy: TFireCopy;
   i: integer = 1;
   comando: TProcess;
 
+
 implementation
 
+function SendMail(User, Password, MailFrom, MailTo, SMTPHost, SMTPPort: string; MailData: string
+    ): Boolean;
+  var
+    SMTP: TSMTPSend;
+    sl:TStringList;
+  begin
+    Result:=False;
+    SMTP:=TSMTPSend.Create;
+    sl:=TStringList.Create;
+    try
+      sl.text:=Maildata;
+      SMTP.UserName:=User;
+      SMTP.Password:=Password;
+      SMTP.TargetHost:=SMTPHost;
+      SMTP.TargetPort:=SMTPPort;
+      SMTP.AutoTLS:=true;
+      if SMTPPort<> '25' then
+        SMTP.FullSSL:=true;
+      if SMTP.Login then
+      begin
+        result:=SMTP.MailFrom(MailFrom, Length(MailData)) and
+           SMTP.MailTo(MailTo) and
+           SMTP.MailData(sl);
+        SMTP.Logout;
+      end;
+    finally
+      SMTP.Free;
+      sl.Free;
+    end;
+  end;
 {$R *.lfm}
 
-{ TForm1 }
+{ TFireCopy }
 
-procedure TForm1.FormCreate(Sender: TObject);
+procedure TFireCopy.FormCreate(Sender: TObject);
 begin
 
 end;
 
-procedure TForm1.LogFileChange(Sender: TObject);
+procedure TFireCopy.LogFileChange(Sender: TObject);
 begin
 
 end;
 
-procedure TForm1.RoboCopyClick(Sender: TObject);
+procedure TFireCopy.RoboCopyClick(Sender: TObject);
 var
   unalista: TStringList;
 begin
@@ -107,6 +138,10 @@ begin
 
   comando.Execute;
   comando.Free;
+
+  SendMail('jabaselga@gmail.com', 'COMEXSISTEMAS', 'jabaselga@gmail.com',
+        'ja@baselga.net', 'smtp.gmail.com', '587', 'preuba');
+
 
 end;
 
