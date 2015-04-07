@@ -81,4 +81,14 @@ object FireCopy: TFireCopy
     Caption = 'Modo Backup'
     TabOrder = 7
   end
+  object Memo1: TMemo
+    Left = 48
+    Height = 168
+    Top = 149
+    Width = 373
+    Lines.Strings = (
+      'Memo1'
+    )
+    TabOrder = 8
+  end
 end

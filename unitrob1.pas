@@ -6,15 +6,16 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ShellCtrls,
-  EditBtn, StdCtrls, ComCtrls, ExtCtrls, Buttons, Process, smtpsend;
+  EditBtn, StdCtrls, ComCtrls, ExtCtrls, Buttons, Process, smtpsend, ssl_openssl;
 
 type
 
   { TFireCopy }
-
+    ESMTP = class (Exception);
   TFireCopy = class(TForm)
     Label1: TLabel;
     mBackup: TCheckBox;
+    Memo1: TMemo;
     Seg_NTFS: TCheckBox;
     MIR: TCheckBox;
     Log: TCheckBox;
@@ -37,9 +38,10 @@ var
   comando: TProcess;
 
 
+
 implementation
 
-function SendMail(User, Password, MailFrom, MailTo, SMTPHost, SMTPPort: string; MailData: string
+{function SendMail(User, Password, MailFrom, MailTo, SMTPHost, SMTPPort: string; MailData: string
     ): Boolean;
   var
     SMTP: TSMTPSend;
@@ -55,6 +57,7 @@ function SendMail(User, Password, MailFrom, MailTo, SMTPHost, SMTPPort: string; 
       SMTP.TargetHost:=SMTPHost;
       SMTP.TargetPort:=SMTPPort;
       SMTP.AutoTLS:=true;
+
       if SMTPPort<> '25' then
         SMTP.FullSSL:=true;
       if SMTP.Login then
@@ -63,13 +66,68 @@ function SendMail(User, Password, MailFrom, MailTo, SMTPHost, SMTPPort: string; 
            SMTP.MailTo(MailTo) and
            SMTP.MailData(sl);
         SMTP.Logout;
+        ShowMessage (sl.GetText);
       end;
     finally
+
       SMTP.Free;
       sl.Free;
     end;
   end;
-{$R *.lfm}
+}
+
+procedure AddToLog(const a: string);
+begin
+  FireCopy.Memo1.Lines.Add(a);
+end;
+
+
+procedure MailSend(const sSmtpHost, sSmtpPort, sSmtpUser, sSmtpPasswd, sFrom, sTo, sFileName: AnsiString);
+var
+  smtp: TSMTPSend;
+  msg_lines: TStringList;
+begin
+  msg_lines := TStringList.Create;
+  smtp := TSMTPSend.Create;
+  try
+    msg_lines.LoadFromFile(sFileName);
+    msg_lines.Insert(0, 'From: ' + sFrom);
+    msg_lines.Insert(1, 'To: ' + sTo);
+
+    smtp.UserName := sSmtpUser;
+    smtp.Password := sSmtpPasswd;
+
+    smtp.TargetHost := sSmtpHost;
+    smtp.TargetPort := sSmtpPort;
+
+
+    AddToLog('SMTP Login');
+    if Trim(sSMTPPort)<>'25' then
+      SMTP.FullSSL:=true;
+    if not smtp.Login() then
+      raise ESMTP.Create('SMTP ERROR: Login:' + smtp.EnhCodeString);
+    AddToLog('SMTP StartTLS');
+    if not smtp.StartTLS() then
+      raise ESMTP.Create('SMTP ERROR: StartTLS:' + smtp.EnhCodeString);
+
+    AddToLog('SMTP Mail');
+    if not smtp.MailFrom(sFrom, Length(sFrom)) then
+      raise ESMTP.Create('SMTP ERROR: MailFrom:' + smtp.EnhCodeString);
+    if not smtp.MailTo(sTo) then
+      raise ESMTP.Create('SMTP ERROR: MailTo:' + smtp.EnhCodeString);
+    if not smtp.MailData(msg_lines) then
+      raise ESMTP.Create('SMTP ERROR: MailData:' + smtp.EnhCodeString);
+
+    AddToLog('SMTP Logout');
+    if not smtp.Logout() then
+      raise ESMTP.Create('SMTP ERROR: Logout:' + smtp.EnhCodeString);
+    AddToLog('OK!');
+  finally
+    msg_lines.Free;
+    smtp.Free;
+  end;
+end;
+  {$R *.lfm}
 
 { TFireCopy }
 
@@ -138,10 +196,11 @@ begin
 
   comando.Execute;
   comando.Free;
+  FireCopy.Memo1.Clear;
+  MailSend('smtp.gmail.com', '465', 'jabaselga@gmail.com', 'COMEXSISTEMAS', 'jabaselga@gmail.com',
+        'ja@baselga.net',  'example.txt');
 
-  SendMail('jabaselga@gmail.com', 'COMEXSISTEMAS', 'jabaselga@gmail.com',
-        'ja@baselga.net', 'smtp.gmail.com', '587', 'preuba');
-
+//  procedure MailSend(const sSmtpHost, sSmtpPort, sSmtpUser, sSmtpPasswd, sFrom, sTo, sFileName: AnsiString);
 
 end;
 

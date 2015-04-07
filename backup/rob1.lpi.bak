@@ -33,7 +33,7 @@
         <PackageName Value="LCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="3">
+    <Units Count="4">
       <Unit0>
         <Filename Value="rob1.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -52,6 +52,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="smtpsend"/>
       </Unit2>
+      <Unit3>
+        <Filename Value="C:\Users\jaba\Desktop\lib\ssl_openssl.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ssl_openssl"/>
+      </Unit3>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
